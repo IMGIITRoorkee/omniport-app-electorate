@@ -1,0 +1,8 @@
+nomenclature:
+  name: electorate
+  verboseName: Electorate
+description: An app for Omniport that does what apps do
+baseUrls:
+  http: electorate/
+  static: electorate/
+isApi: true
