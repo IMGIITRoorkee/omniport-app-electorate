@@ -5,13 +5,12 @@ from django.db import models
 from formula_one.utils.upload_to import UploadTo
 from electorate.constants import categories_tuple, posts_dict, all_posts
 
-
 class CandidateProfile(models.Model):
     student = models.ForeignKey(
         to=swapper.get_model_name('kernel', 'Student'),
         on_delete=models.CASCADE,
     )
-
+    
     category = models.CharField(max_length=1, choices=categories_tuple)
 
     post = models.CharField(max_length=30, choices=all_posts)

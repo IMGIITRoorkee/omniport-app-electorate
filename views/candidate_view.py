@@ -22,41 +22,7 @@ class CandidateView(viewsets.ModelViewSet):
     serializer_class = CandidateProfileSerializer
     paginator = None
     queryset = CandidateProfile.objects.all()
-
-    def list(self, request):
-        """
-        Overrides the list method to list only those candidate profiles which 
-        are applying for the logged in user's bhawan's elections.
-        """
-
-        profiles_bhawan = CandidateProfile.objects.filter(
-            category='B').order_by('-post')
-        profiles_institute = CandidateProfile.objects.filter(
-            category='I').order_by('-post')
-        profiles_my_bhawan = []
-        all_my_profiles = []
-
-        for profile in profiles_institute:
-            all_my_profiles.append(profile)
-                    
-        for profile in profiles_bhawan:
-            try:
-                person_residence = ResidentialInformation.objects.get(
-                    person=self.request.person).residence
-                candidate_residence = ResidentialInformation.objects.get(
-                    person=profile.student.person).residence
-                if person_residence == candidate_residence:
-                    profiles_my_bhawan.append(profile)
-                    all_my_profiles.append(profile)
-
-            except BaseException:
-                return Response('Logged in user\'s Bhawan not found',HTTP_404_NOT_FOUND)
-
-        List_queryset = all_my_profiles
-        serializer = CandidateProfileSerializer(List_queryset, many=True)
-        print(List_queryset)
-        return Response(serializer.data)
-
+    
     def update(self, request, pk=None):
         """
         Overrides the update method of serializer ensuring that only 
@@ -104,7 +70,6 @@ class CandidateView(viewsets.ModelViewSet):
             print(serializer.validated_data.get('student'))
             if serializer.validated_data.get('student') == request.person.student:
                 candidate = serializer.save(student=request.person.student)
-                
                 logger.info(
                 f'Successfully created candidate profile {candidate.student} '
             )

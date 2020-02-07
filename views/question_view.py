@@ -1,3 +1,5 @@
+import logging
+
 import swapper
 
 from django.http import HttpResponse, JsonResponse
@@ -15,6 +17,7 @@ from electorate.serializers.question_serializer import QuestionSerializer
 Student = swapper.load_model('kernel', 'Student')
 Residence = swapper.load_model('kernel', 'Residence')
 
+logger = logging.getLogger('electorate')
 
 class QuestionView(viewsets.ModelViewSet):
 
