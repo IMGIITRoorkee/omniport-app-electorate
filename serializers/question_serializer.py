@@ -36,6 +36,7 @@ class QuestionSerializer(serializers.ModelSerializer):
             'question',
             'answer',
             'candidate',
+            'post',
             'asker_full_name',
             'asker_displayPicture',
             'candidate_full_name',

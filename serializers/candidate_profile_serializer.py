@@ -1,8 +1,10 @@
 import swapper
 
 from rest_framework import serializers
+from formula_one.models import ContactInformation
 from formula_one.serializers.base import ModelSerializer
-
+# from formula_one.models import ContactInformation
+# from kernel.serializers.generics.contact_information import (ContactInformationSerializer,)
 from electorate.serializers.student import StudentSerializer
 from electorate.serializers.person import PersonSerializer
 from electorate.models.candidate_profile import CandidateProfile
@@ -33,6 +35,10 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         source='student.current_year',
         read_only=True
     )
+    contact = serializers.CharField(
+        source = 'student.person.contact_information.get().email_address',
+        # read_only = True
+    )
 
     class Meta:
         """
@@ -41,6 +47,7 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         model = CandidateProfile
         fields = [
             'id',
+            'contact',
             'student',
             'post',
             'category',

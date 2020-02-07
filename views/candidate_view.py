@@ -36,6 +36,9 @@ class CandidateView(viewsets.ModelViewSet):
         if serializer.is_valid():
             if has_object_permission(request, obj):
                 serializer.save(student=request.person.student)
+                logger.info(
+                f'Successfully updated candidate profile '
+            )
                 return Response(serializer.data, status=HTTP_200_OK)
             else:
                 return Response('Not permitted', status=HTTP_403_FORBIDDEN)
@@ -51,6 +54,9 @@ class CandidateView(viewsets.ModelViewSet):
         obj = get_object_or_404(queryset, pk=pk)
         if has_object_permission(request, obj):
             obj.delete()
+            logger.info(
+                f'Successfully deleted candidate profile '
+            )
             return Response('deleted', status=HTTP_200_OK)
         return Response('Not Allowed', status=HTTP_404_NOT_FOUND)
 
@@ -61,13 +67,11 @@ class CandidateView(viewsets.ModelViewSet):
         """
         queryset = self.get_queryset()
         serializer = CandidateProfileSerializer(data=request.data)
-        if not CandidateProfile.objects.filter(
-                student=request.person.student).exists() & serializer.is_valid():
+        if serializer.is_valid():
             if CandidateProfile.objects.filter(
                     student=request.person.student).exists():
                 return Response(
                     'Candidate cannot apply for more than 1 position')
-            print(serializer.validated_data.get('student'))
             if serializer.validated_data.get('student') == request.person.student:
                 candidate = serializer.save(student=request.person.student)
                 logger.info(
