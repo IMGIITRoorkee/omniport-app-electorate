@@ -71,7 +71,7 @@ class QuestionView(viewsets.ModelViewSet):
         if serializer.is_valid():
             candidate = serializer.validated_data.get('candidate')
             print(serializer.validated_data.get('candidate'))
-            question = serializer.save(post=candidate.post)
+            question = serializer.save(post = candidate.post,asker = request.person.student)
             logger.info(
                 f'Successfully created question {question.question} '
             )

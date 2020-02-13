@@ -35,11 +35,12 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         source='student.current_year',
         read_only=True
     )
-    contact = serializers.CharField(
-        source = 'student.person.contact_information.get().email_address',
-        # read_only = True
-    )
-
+ 
+    email_address = serializers.SerializerMethodField()
+    
+    def get_email_address(self, instance):
+        return instance.student.person.contact_information.get().email_address
+        
     class Meta:
         """
         Meta class for Candidate Profile objects
@@ -47,7 +48,7 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         model = CandidateProfile
         fields = [
             'id',
-            'contact',
+            'email_address',
             'student',
             'post',
             'category',
