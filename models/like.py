@@ -16,5 +16,3 @@ class Like(models.Model):
         on_delete=models.CASCADE,
         related_name='user_like',
     )
-
-    liked = models.BooleanField(default=False)

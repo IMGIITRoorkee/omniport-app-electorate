@@ -8,7 +8,7 @@ def has_object_permission(request, obj):
 
 def has_candidate_permission(request, obj):
     
-    return str(obj.candidate)==str(request.person.student)
+    return str(obj.candidate.student)==str(request.person.student)
 
 def has_question_permission(request, obj):
     return str(obj.asker.person)==str(request.person)

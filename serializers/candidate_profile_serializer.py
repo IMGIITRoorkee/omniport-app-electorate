@@ -40,6 +40,11 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
     
     def get_email_address(self, instance):
         return instance.student.person.contact_information.get().email_address
+    
+    is_candidate = serializers.SerializerMethodField()
+    
+    def get_is_candidate(self, instance):
+        return str(instance.student.person)==str(self.context['request'].person)
         
     class Meta:
         """
@@ -48,6 +53,7 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         model = CandidateProfile
         fields = [
             'id',
+            'is_candidate',
             'email_address',
             'student',
             'post',

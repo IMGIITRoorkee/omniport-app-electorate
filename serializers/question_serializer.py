@@ -3,6 +3,7 @@ import swapper
 from rest_framework import serializers
 
 from electorate.models.question import Question
+from electorate.models.like import Like
 from electorate.serializers.candidate_profile_serializer import CandidateProfileSerializer
 from electorate.serializers.person import PersonSerializer
 from electorate.serializers.candidate_profile_serializer import CandidateProfileSerializer
@@ -27,11 +28,24 @@ class QuestionSerializer(serializers.ModelSerializer):
         source='candidate.student.person.display_picture',
         read_only=True
     )
+    
+    number_of_likes = serializers.SerializerMethodField()
+    
+    def get_number_of_likes(self,instance):
+        return Like.objects.filter(question = instance).count()
+    
+    did_user_like = serializers.SerializerMethodField()
+    
+    def get_did_user_like(self,instance):
+        return Like.objects.filter(question = instance,user = self.context['request'].person.student).exists()
+    
 
     class Meta:
         model = Question
         fields = [
             'asker',
+            'did_user_like',
+            'number_of_likes',
             'answered',
             'question',
             'answer',

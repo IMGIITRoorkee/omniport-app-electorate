@@ -14,6 +14,8 @@ from django.shortcuts import get_object_or_404
 from electorate.models.question import Question
 from electorate.permissions.permissions import has_object_permission, has_candidate_permission, has_question_permission
 from electorate.serializers.question_serializer import QuestionSerializer
+from electorate.utils.create_question_notifications import create_question_notifications
+from electorate.utils.answer_question_notifications import answer_question_notifications
 
 Student = swapper.load_model('kernel', 'Student')
 Residence = swapper.load_model('kernel', 'Residence')
@@ -37,9 +39,11 @@ class QuestionView(viewsets.ModelViewSet):
         obj = get_object_or_404(queryset, pk=pk)
         serializer = QuestionSerializer(obj, data=request.data)
         if serializer.is_valid():
+            candidate = serializer.validated_data.get('candidate')
             if has_candidate_permission(request, obj):
-                if obj.answer is not None:
-                    serializer.save(asker=request.person.student)
+                if (obj.answer==""):
+                    serializer.save(post = candidate.post,asker=request.person.student)
+                    answer_question_notifications(self.request.person,obj)
             else:
                 return Response('Not allowed', status=HTTP_403_FORBIDDEN)
             return Response(serializer.data)
@@ -55,7 +59,7 @@ class QuestionView(viewsets.ModelViewSet):
         obj = get_object_or_404(queryset, pk=pk)
         serializer = QuestionSerializer(obj)
         if has_question_permission(request, obj):
-            if serializer.validated_data.answered is not None:
+            if (obj.answer==""):
                 obj.delete()
             else:
                 return Response('Not allowed', status=HTTP_403_FORBIDDEN)
@@ -70,8 +74,9 @@ class QuestionView(viewsets.ModelViewSet):
         serializer = QuestionSerializer(data=request.data)
         if serializer.is_valid():
             candidate = serializer.validated_data.get('candidate')
-            print(serializer.validated_data.get('candidate'))
+            # print(serializer.validated_data.get('candidate'))
             question = serializer.save(post = candidate.post,asker = request.person.student)
+            create_question_notifications(self.request.person,question)
             logger.info(
                 f'Successfully created question {question.question} '
             )
