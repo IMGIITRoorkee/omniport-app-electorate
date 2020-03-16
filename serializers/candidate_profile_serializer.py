@@ -39,12 +39,15 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
     email_address = serializers.SerializerMethodField()
     
     def get_email_address(self, instance):
-        return instance.student.person.contact_information.get().email_address
+        if(instance.student.person.contact_information.get().email_address!= None):
+            return instance.student.person.contact_information.get().email_address
+        return None
     
     is_candidate = serializers.SerializerMethodField()
     
     def get_is_candidate(self, instance):
-        return str(instance.student.person)==str(self.context['request'].person)
+        if(self.context['request'].person != None):
+            return str(instance.student.person)==str(self.context['request'].person)
         
     class Meta:
         """

@@ -43,6 +43,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = [
+            'id',
             'asker',
             'did_user_like',
             'number_of_likes',

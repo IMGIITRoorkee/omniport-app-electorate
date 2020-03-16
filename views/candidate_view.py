@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404
 
 from electorate.models.candidate_profile import CandidateProfile
 from electorate.serializers.candidate_profile_serializer import CandidateProfileSerializer
+from electorate.serializers.candidate_profile_serializer_create import CandidateProfileSerializerCreate
 from electorate.permissions.permissions import has_object_permission
 
 Student = swapper.load_model('kernel', 'Student')
@@ -66,7 +67,7 @@ class CandidateView(viewsets.ModelViewSet):
          for only 1 position.
         """
         queryset = self.get_queryset()
-        serializer = CandidateProfileSerializer(data=request.data)
+        serializer = CandidateProfileSerializerCreate(data=request.data)
         if serializer.is_valid():
             if CandidateProfile.objects.filter(
                     student=request.person.student).exists():
