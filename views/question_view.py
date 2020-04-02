@@ -14,6 +14,7 @@ from django.shortcuts import get_object_or_404
 from electorate.models.question import Question
 from electorate.permissions.permissions import has_object_permission, has_candidate_permission, has_question_permission
 from electorate.serializers.question_serializer import QuestionSerializer
+from electorate.serializers.question_serializer_create import QuestionCreateSerializer
 from electorate.utils.create_question_notifications import create_question_notifications
 from electorate.utils.answer_question_notifications import answer_question_notifications
 
@@ -71,10 +72,9 @@ class QuestionView(viewsets.ModelViewSet):
         Create a question object 
         """
         queryset = self.get_queryset()
-        serializer = QuestionSerializer(data=request.data)
+        serializer = QuestionCreateSerializer(data=request.data)
         if serializer.is_valid():
             candidate = serializer.validated_data.get('candidate')
-            # print(serializer.validated_data.get('candidate'))
             question = serializer.save(post = candidate.post,asker = request.person.student)
             create_question_notifications(self.request.person,question)
             logger.info(

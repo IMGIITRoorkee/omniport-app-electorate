@@ -35,7 +35,26 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         source='student.current_year',
         read_only=True
     )
- 
+    
+    post_fullname = serializers.SerializerMethodField()
+    
+    def get_post_fullname(self, instance):
+        if(instance.post=="acad_ug"):
+            return "G.S. Academics Affairs(UG)"
+        if (instance.post=="tech"):
+            return "G.S. Technical Affairs"
+        if (instance.post=="sport"):
+            return "G.S. Sports Affairs"
+        if (instance.post=="hostel"):
+            return "G.S. Hostel Affairs"
+        if (instance.post=="cult"):
+            return "G.S. Cultural Council"
+        if (instance.post=="prof"):
+            return "G.S. Professional Affairs"
+        if (instance.post=="acad_pg"):
+            return "G.S. Academics Affairs(PG)"
+
+       
     email_address = serializers.SerializerMethodField()
     
     def get_email_address(self, instance):
@@ -57,6 +76,7 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'is_candidate',
+            'post_fullname',
             'email_address',
             'student',
             'post',

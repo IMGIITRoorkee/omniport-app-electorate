@@ -28,7 +28,14 @@ class QuestionSerializer(serializers.ModelSerializer):
         source='candidate.student.person.display_picture',
         read_only=True
     )
+    question_answered_or_not = serializers.SerializerMethodField()
     
+    def get_question_answered_or_not(self,instance):
+        if(instance.answer == ""):
+            return "NotAnswered"
+        else:
+            return "Answered"
+
     number_of_likes = serializers.SerializerMethodField()
     
     def get_number_of_likes(self,instance):
@@ -52,6 +59,7 @@ class QuestionSerializer(serializers.ModelSerializer):
             'answer',
             'candidate',
             'post',
+            'question_answered_or_not',
             'asker_full_name',
             'asker_displayPicture',
             'candidate_full_name',

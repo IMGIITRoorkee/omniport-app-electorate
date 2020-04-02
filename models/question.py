@@ -7,7 +7,7 @@ from electorate.models.candidate_profile import CandidateProfile
 
 
 class Question(models.Model):
-    answered = models.DateTimeField(auto_now=False, null=True, blank=True)
+    answered = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     asker = models.ForeignKey(
         to=swapper.get_model_name('kernel', 'Student'),
