@@ -12,7 +12,7 @@ class Like(models.Model):
         Question, blank=False, on_delete=models.CASCADE)
 
     user = models.ForeignKey(
-        to=swapper.get_model_name('kernel', 'Student'),
+        to=swapper.get_model_name('kernel', 'Person'),
         on_delete=models.CASCADE,
         related_name='user_like',
     )

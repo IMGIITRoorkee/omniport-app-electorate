@@ -12,11 +12,11 @@ from electorate.serializers.candidate_profile_serializer import CandidateProfile
 class QuestionSerializer(serializers.ModelSerializer):
 
     asker_full_name = serializers.CharField(
-        source='asker.person.full_name',
+        source='asker.full_name',
         read_only=True
     )
     asker_displayPicture = serializers.FileField(
-        source='asker.person.display_picture',
+        source='asker.display_picture',
         read_only=True
     )
 
@@ -44,7 +44,7 @@ class QuestionSerializer(serializers.ModelSerializer):
     did_user_like = serializers.SerializerMethodField()
     
     def get_did_user_like(self,instance):
-        return Like.objects.filter(question = instance,user = self.context['request'].person.student).exists()
+        return Like.objects.filter(question = instance,user = self.context['request'].person).exists()
     
 
     class Meta:
@@ -63,4 +63,5 @@ class QuestionSerializer(serializers.ModelSerializer):
             'asker_full_name',
             'asker_displayPicture',
             'candidate_full_name',
-            'candidate_displayPicture']
+            'candidate_displayPicture'
+            ]

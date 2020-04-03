@@ -10,7 +10,7 @@ class Question(models.Model):
     answered = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     asker = models.ForeignKey(
-        to=swapper.get_model_name('kernel', 'Student'),
+        to=swapper.get_model_name('kernel', 'Person'),
         related_name='asker',
         on_delete=models.CASCADE,
     )

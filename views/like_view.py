@@ -20,7 +20,7 @@ class LikeView(viewsets.ModelViewSet):
         queryset = self.get_queryset()
         serializer = LikeSerializer(data=request.data)
         if serializer.is_valid():
-            like = serializer.save(user = request.person.student)
+            like = serializer.save(user = request.person)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
