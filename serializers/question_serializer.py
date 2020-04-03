@@ -32,9 +32,9 @@ class QuestionSerializer(serializers.ModelSerializer):
     
     def get_question_answered_or_not(self,instance):
         if(instance.answer == ""):
-            return "NotAnswered"
+            return "False"
         else:
-            return "Answered"
+            return "True"
 
     number_of_likes = serializers.SerializerMethodField()
     
