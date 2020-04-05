@@ -38,12 +38,12 @@ class QuestionView(viewsets.ModelViewSet):
 
         queryset = self.get_queryset()
         obj = get_object_or_404(queryset, pk=pk)
-        serializer = QuestionSerializer(obj, data=request.data)
+        serializer = QuestionCreateSerializer(obj, data=request.data)
         if serializer.is_valid():
             candidate = serializer.validated_data.get('candidate')
             if has_candidate_permission(request, obj):
                 if (obj.answer==""):
-                    serializer.save(post = candidate.post,asker=request.person)
+                    serializer.save(post = candidate.post)
                     answer_question_notifications(self.request.person,obj)
             else:
                 return Response('Not allowed', status=HTTP_403_FORBIDDEN)
