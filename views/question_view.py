@@ -30,7 +30,7 @@ class QuestionView(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['candidate','post']
 
-    def update(self, request, pk=None):
+    def partial_update(self, request, pk=None):
         """
         Overrides the update method in serializer to ensure that only the 
         candidate has the permission to answer the question.
@@ -38,13 +38,12 @@ class QuestionView(viewsets.ModelViewSet):
 
         queryset = self.get_queryset()
         obj = get_object_or_404(queryset, pk=pk)
-        serializer = QuestionCreateSerializer(obj, data=request.data)
+        serializer = QuestionCreateSerializer(obj, data=request.data, partial = True)
         if serializer.is_valid():
             candidate = serializer.validated_data.get('candidate')
             if has_candidate_permission(request, obj):
-                if (obj.answer==""):
-                    serializer.save(post = candidate.post)
-                    answer_question_notifications(self.request.person,obj)
+                serializer.save()
+                answer_question_notifications(self.request.person,obj)
             else:
                 return Response('Not allowed', status=HTTP_403_FORBIDDEN)
             return Response(serializer.data)
