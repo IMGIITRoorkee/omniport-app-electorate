@@ -20,6 +20,6 @@ def answer_question_notifications(person, question):
         is_personalised=False,
         person=None,
         has_custom_users_target=True,
-        persons=f'{person.full_name}',
+        persons=f'{question.asker.full_name}',
     )    
     

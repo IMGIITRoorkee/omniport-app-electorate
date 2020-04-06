@@ -20,5 +20,4 @@ class QuestionCreateSerializer(serializers.ModelSerializer):
             'question',
             'answer',
             'candidate',
-            'post',
             ]
