@@ -8,6 +8,7 @@ posts_dict = {
                 ("cult","G.S. Cultural Council"),
                 ("prof","G.S. Professional Affairs"),
                 ("acad_pg","G.S. Academics Affairs(PG)"),
+                ("All","All"),
                 )
 }
 
