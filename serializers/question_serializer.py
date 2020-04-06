@@ -41,6 +41,14 @@ class QuestionSerializer(serializers.ModelSerializer):
     def get_number_of_likes(self,instance):
         return Like.objects.filter(question = instance).count()
     
+    liked_question_id = serializers.SerializerMethodField()
+    
+    def get_liked_question_id(self,instance):
+        if Like.objects.filter(question = instance,user = self.context['request'].person).exists():
+            return Like.objects.get(question = instance, user = self.context['request'].person)
+        else:
+            return "None"
+        
     did_user_like = serializers.SerializerMethodField()
     
     def get_did_user_like(self,instance):
@@ -53,6 +61,7 @@ class QuestionSerializer(serializers.ModelSerializer):
             'id',
             'asker',
             'did_user_like',
+            'liked_question_id',
             'number_of_likes',
             'answered',
             'question',

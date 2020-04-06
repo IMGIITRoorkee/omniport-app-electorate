@@ -15,7 +15,7 @@ class LikeView(viewsets.ModelViewSet):
     serializer_class = LikeSerializer
     paginator = None
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['user']
+    filterset_fields = ['user','question']
 
     def create(self, request, pk=None):
         """
@@ -24,7 +24,11 @@ class LikeView(viewsets.ModelViewSet):
         queryset = self.get_queryset()
         serializer = LikeSerializer(data=request.data)
         if serializer.is_valid():
-            like = serializer.save(user = request.person)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            question = serializer.validated_data.get('question')
+            if not(Like.objects.filter(question = question, user = request.person).exists()):
+                like = serializer.save(user = request.person)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response("Cant create an object", status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
