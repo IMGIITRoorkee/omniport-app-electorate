@@ -58,9 +58,11 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
     email_address = serializers.SerializerMethodField()
     
     def get_email_address(self, instance):
-        if(instance.student.person.contact_information.get().email_address!= None):
+        
+        try:
             return instance.student.person.contact_information.get().email_address
-        return None
+        except (ContactInformation.DoesNotExist, TypeError) as error:
+            return None
     
     is_candidate = serializers.SerializerMethodField()
     
