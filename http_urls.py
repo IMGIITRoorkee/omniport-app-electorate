@@ -10,10 +10,10 @@ from electorate import views
 app_name = 'electorate'
 router = routers.DefaultRouter()
 
-router.register(r'candidate_view',CandidateView,base_name="candidate_list")
-router.register(r'question_view', QuestionView, base_name="question_list")
-router.register(r'like_view', LikeView, base_name="like_view")
-router.register(r'answer_view', AnswerView, base_name="answer_view")
+router.register(r'candidate_view',CandidateView,basename="candidate_list")
+router.register(r'question_view', QuestionView, basename="question_list")
+router.register(r'like_view', LikeView, basename="like_view")
+router.register(r'answer_view', AnswerView, basename="answer_view")
 
 urlpatterns = [
 
