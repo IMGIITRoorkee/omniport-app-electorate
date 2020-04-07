@@ -1,10 +1,11 @@
+import hashlib
+
 import swapper
 
 from rest_framework import serializers
 from formula_one.models import ContactInformation
 from formula_one.serializers.base import ModelSerializer
-# from formula_one.models import ContactInformation
-# from kernel.serializers.generics.contact_information import (ContactInformationSerializer,)
+
 from electorate.serializers.person import PersonSerializer
 from electorate.models.candidate_profile import CandidateProfile
 
@@ -67,6 +68,27 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         if(self.context['request'].person != None):
             return str(instance.student.person)==str(self.context['request'].person)
         
+    gravatar_hash = serializers.SerializerMethodField()
+    
+    def get_gravatar_hash(self, instance):
+        """
+        Generate the MD5 hash of the email address, if the user provides one
+        :param person: the person being serialized
+        :return: the MD5 hash of the email address of the person
+        """
+
+        try:
+            contact_information = instance.student.person.contact_information.get()
+            email_address = instance.student.person.contact_information.get().email_address
+
+            if email_address is None:
+                raise TypeError
+
+            return hashlib.md5(email_address.encode('utf-8')).hexdigest()
+        except (ContactInformation.DoesNotExist, TypeError) as error:
+            return None
+
+        
     class Meta:
         """
         Meta class for Candidate Profile objects
@@ -74,6 +96,7 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         model = CandidateProfile
         fields = [
             'id',
+            'gravatar_hash',
             'is_candidate',
             'post_fullname',
             'email_address',

@@ -2,6 +2,7 @@ from services.notifications.actions import push_notification
 from django.conf import settings
 
 from electorate.models.question import Question
+
 from services.categories.models import Category
 
 def answer_question_notifications(person, question):

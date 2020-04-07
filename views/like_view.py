@@ -1,9 +1,10 @@
 import swapper
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import viewsets
-from django_filters.rest_framework import DjangoFilterBackend
 
 from electorate.models.like import Like
 from electorate.serializers.like_serializer import LikeSerializer
