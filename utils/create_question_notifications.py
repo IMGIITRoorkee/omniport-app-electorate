@@ -14,7 +14,7 @@ def create_question_notifications(person, question):
         slug=service.nomenclature.name,
     )
     push_notification(
-        template = f'{question.asker.full_name} asked you a question',
+        template = f'{question.asker.full_name} asked you a question {question.question}',
         category = category,
         web_onclick_url='',
         android_onclick_activity='',
