@@ -19,7 +19,7 @@ logger = logging.getLogger('electorate')
 
 class AnswerView(viewsets.ModelViewSet):
 
-    queryset = Question.objects.all().order_by('answered').filter(answer="")
+    queryset = Question.objects.all().order_by('answered').filter(answer="").reverse()
     serializer_class = QuestionSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['candidate','post']
