@@ -6,7 +6,7 @@ posts_dict = {
                 ("tech","G.S. Technical Affairs"),
                 ("sport","G.S. Sports Affairs"),
                 ("hostel","G.S. Hostel Affairs"),
-                ("cult","G.S. Cultural Council"),
+                ("cult","G.S. Cultural Affairs"),
                 ("prof","G.S. Professional Affairs"),
                 ("acad_pg","G.S. Academics Affairs(PG)"),
                 )
