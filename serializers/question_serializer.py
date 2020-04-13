@@ -20,6 +20,10 @@ class QuestionSerializer(serializers.ModelSerializer):
         read_only=True
     )
 
+    enrolment_number = serializers.IntegerField(
+        source='candidate.student.enrolment_number',
+        read_only=True
+    )
     candidate_full_name = serializers.CharField(
         source='candidate.student.person.full_name',
         read_only=True
@@ -72,5 +76,6 @@ class QuestionSerializer(serializers.ModelSerializer):
             'asker_full_name',
             'asker_displayPicture',
             'candidate_full_name',
-            'candidate_displayPicture'
+            'candidate_displayPicture',
+            'enrolment_number'
             ]

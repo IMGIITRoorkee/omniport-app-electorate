@@ -35,6 +35,10 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
         source='student.current_year',
         read_only=True
     )
+    enrolment_number = serializers.IntegerField(
+        source='student.enrolment_number',
+        read_only=True
+    )
     
     post_fullname = serializers.SerializerMethodField()
     
@@ -113,4 +117,5 @@ class CandidateProfileSerializer(serializers.ModelSerializer):
             'displayPicture',
             'branch_name',
             'current_year',
-            'degree']
+            'degree',
+            'enrolment_number']

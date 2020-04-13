@@ -22,4 +22,4 @@ class AnswerView(viewsets.ModelViewSet):
     queryset = Question.objects.all().order_by('answered').filter(answer="").reverse()
     serializer_class = QuestionSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['candidate','post']
+    filterset_fields = ['candidate', 'post', 'candidate__student__enrolment_number']

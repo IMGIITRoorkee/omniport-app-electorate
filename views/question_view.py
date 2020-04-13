@@ -29,7 +29,7 @@ class QuestionView(viewsets.ModelViewSet):
     queryset = Question.objects.all().order_by('answered').reverse()
     serializer_class = QuestionSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['candidate','post']
+    filterset_fields = ['candidate', 'post', 'candidate__student__enrolment_number']
 
     def partial_update(self, request, pk=None):
         """

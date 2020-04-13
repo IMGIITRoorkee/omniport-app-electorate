@@ -24,6 +24,7 @@ class CandidateView(viewsets.ModelViewSet):
     serializer_class = CandidateProfileSerializer
     paginator = None
     queryset = CandidateProfile.objects.all()
+    lookup_field = 'student__enrolment_number'
     
     def update(self, request, pk=None):
         """
