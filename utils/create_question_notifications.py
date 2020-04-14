@@ -14,13 +14,13 @@ def create_question_notifications(person, question):
         slug=service.nomenclature.name,
     )
     push_notification(
-        template = f'{question.asker.full_name} asked you a question {question.question}',
+        template = f'{question.asker.full_name} asked you a question',
         category = category,
         web_onclick_url='',
         android_onclick_activity='',
         is_personalised=False,
         person=None,
         has_custom_users_target=True,
-        persons=f'{question.candidate}',
+        persons=f'{question.candidate.student.person.full_name}',
     )    
     

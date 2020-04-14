@@ -14,7 +14,7 @@ def answer_question_notifications(person, question):
         slug=service.nomenclature.name,
     )
     push_notification(
-        template = f'{question.candidate.student.person.full_name} replied to your question {question.answer}',
+        template = f'{question.candidate.student.person.full_name} replied to your question',
         category = category,
         web_onclick_url='',
         android_onclick_activity='',
