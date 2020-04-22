@@ -15,11 +15,11 @@ class Question(models.Model):
         on_delete=models.CASCADE,
     )
 
-    question = models.CharField(max_length=250, blank=False)
+    question = models.TextField(blank=False)
     
     post = models.CharField(max_length=30, choices=all_posts)
 
-    answer = models.TextField(max_length=10000, default='', blank=True)
+    answer = models.TextField(default='', blank=True)
 
     candidate = models.ForeignKey(
         CandidateProfile,
